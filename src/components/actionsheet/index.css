@@ -1,0 +1,66 @@
+.uvue-actionsheet{
+    position: fixed;
+    bottom: 0;
+    right:0;
+    left:0;
+    text-align: center;
+    margin: 0 1%;
+    font-size:16px;
+    z-index: 1000;
+  }
+  .uv-actionsheet-list{
+    background-color: #fff;
+    border-radius: 6px;
+    max-height: 450px;
+    overflow: scroll;
+  }
+  .uv-actionsheet-item{
+    border-bottom:1px solid #f0f0f0;
+    height:40px;
+    line-height: 40px;
+    overflow: hidden;
+  }
+  .uv-actionsheet-btn{
+    background-color: #fff;
+    display:block;
+    line-height:40px;
+    height:40px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+  .actionsheet-float-enter-active {
+    transform: translateY(0);
+    transition:300ms ease-out;
+  }
+  .actionsheet-float-enter, .actionsheet-float-leave-active {
+    transition:300ms ease-out;
+    transform: translateY(100%);
+  }
+  .uvue-mask-enter-active{
+    transition: opacitybg 300ms linear;
+    /* opacity: 1; */
+  }
+  @keyframes opacitybg {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  .uvue-mask-leave-active {
+    opacity: 0;
+    transition: 300ms ease-out;
+  }
+  .uvue-masking {
+    position: fixed;
+    right: 0;
+    left:0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(0,0,0,.2);
+    z-index: 999;
+    opacity: .4;
+  }
+ 
+  
