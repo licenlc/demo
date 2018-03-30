@@ -128,7 +128,7 @@ export default {
           this.offset = this.offset + distance
           let index = Math.round(Math.abs(this.offset / this.itemHeight))
           this.currentIndex = index
-          console.log('currentIndex:', index)
+          // console.log('currentIndex:', index)
           this.offset = this.itemHeight * index * -1
         }
       }
@@ -138,12 +138,12 @@ export default {
       if (index !== this.currentIndex) {
         this.offset = -(this.itemHeight * index)
         this.currentIndex = index
-        // this.setValue()
+        this.setValue()
       }
     },
     setValue () {
-      console.log('on-change子元素', this.currentIndex)
-      this.$emit('on-change', this.currentIndex)
+      console.log('on-item-change子元素', this.currentIndex)
+      this.$emit('on-item-change', this.currentIndex)
     }
   }
 }

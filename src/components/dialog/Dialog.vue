@@ -40,7 +40,7 @@ export default {
   methods: {
     okCB () {
       this.$emit('input', false)
-      this.$emit('on-ok')
+      this.success()
     }
   }
 }
@@ -93,17 +93,30 @@ export default {
 .dv-btn.dv-btn-ok{
   border-left:1px solid #f0f0f0;
 }
-.dv-btn-ok:active{
-  background-color: red;
-}
 .fade-out-enter, .fade-out-leave-to{
   opacity: 0;
-  transform: scale(.5);
+  transform: translate3d(-50%, -50%, 0) scale(.4);
+}
+
+.fase-out-enter-active, .fade-out-leave-active{
+    animation: faseOut 500ms;
 }
 
 .fade-out-enter-to, .fade-out-leave{
   opacity: 1;
-  transition: all 300ms ease-in-out;
+  transition: 500ms ease-in-out;
+
+}
+@keyframes fadeOut {
+  0%{
+    transform: translate3d(-50%, -50%, 0) scale(0.3); 
+  }
+  50%{
+    transform: translate3d(-50%, -50%, 0) scale(1.2); 
+  }
+  100%{
+    transform: translate3d(-50%, -50%, 0) scale(1); 
+  }
 }
 </style>
 

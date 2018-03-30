@@ -13,7 +13,7 @@
         :itemHeight = "itemHeight"
         :className = "item.className"
         :defaultIndex = "item.defaultIndex || defaultIndex"
-        @on-change="onChange(index)"
+        @on-item-change="onChange(index)"
         :visibleItemCount = "visibleItemCount"
       />
       <div class="picker-center"></div>
@@ -90,13 +90,15 @@ export default {
         }
       }
     },
-    onChange (index) {
+    onChange (index, b) {
+      console.log('父元素：', index, b)
+      console.log(this.$children[index].currentIndex)
       this.curIndex = index
       if (this.isSimple) {
-        console.log('simple-on-change:', index)
-        this.$emit('on-change',this.columns[index])
+        // console.log('simple-on-change:', index)
+        this.$emit('on-change', this.columns[index])
       } else {
-        this.$emit('dup-on-change', this, this.curIndex)
+        this.$emit('on-change', this, this.curIndex)
       }
     },
     confirm () {

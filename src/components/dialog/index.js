@@ -27,7 +27,8 @@ Dialog.defaultOpts = {
   okText: '确定',
   title: '标题1111',
   overlay: true,
-  value: true
+  value: true,
+  success: () => {}
 }
 
 Dialog.alert = options => Dialog({

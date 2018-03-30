@@ -1,20 +1,14 @@
 <template>
     <div style="text-align:center;padding-top:10px;">
-      <dv-btn @click="value = !value" size="small" style="font-size:12px;">点击弹出dialog</dv-btn>
-      <btn @click="okFunc" size="small" style="font-size:12px;">点击弹出dialog</btn>
-      <dv-dialog v-model="value" @on-ok="okFunc" title="标题" content="内容">
-      </dv-dialog>
+      <button @click="value = !value" size="small" style="font-size:12px;">点击弹出dialog</button>
+      <button @click="okFunc" size="small" style="font-size:12px;">点击弹出dialog</button>
+      <!-- <dv-dialog v-model="value" @on-ok="okFunc" title="标题" content="内容">
+      </dv-dialog> -->
     </div>
 </template>
 
 <script>
-import DvDialog from '@/components/dialog/Dialog'
-// import Btn from '@/components/button/Button'
 export default {
-  components: {
-    DvDialog
-    // Btn
-  },
   data () {
     return {
       value: false
@@ -22,9 +16,15 @@ export default {
   },
   methods: {
     okFunc () {
-      // this.$dialog
-      console.log(this.$dialog.alert({}))
-      console.log('ok')
+      this.$dialog.alert(
+        {
+          title: '测试dialog',
+          content: '内容测试好的打底裤',
+          success: () => {
+            console.log('callback=======')
+          }
+        }
+      )
     }
   }
 }

@@ -47,7 +47,8 @@ export default {
   right: 0;
   bottom: 0;
   background-color: rgba(247, 76, 49, .6);
-  opacity: 0.8;
+  background-color: rgba(0, 0, 0, .6);
+  opacity: 0.4;
 }
  .dv-fade-enter, .dv-fade-leave-to{
   opacity: 0.1;
