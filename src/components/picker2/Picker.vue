@@ -17,7 +17,6 @@
         :visibleItemCount = "visibleItemCount"
       />
       <div class="picker-center"></div>
-
     </div>
     <div class="dv-picker-ok" @click="confirm">确定</div>
   </div>

@@ -15,6 +15,9 @@ export default {
   padding:0;
   margin:0;
 }
+html {
+    -webkit-tap-highlight-color: transparent;
+}
 ul, li {
   list-style: none;
 }

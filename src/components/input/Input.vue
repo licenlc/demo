@@ -4,7 +4,7 @@
         class="dt-input-core"
         ref="input"
         :type = "type"
-        :value = "curValue"
+        :value = "value"
         :maxlength = "maxlength"
         :placeholder = "placeholder"
         :readonly = "readonly"
@@ -13,7 +13,7 @@
         @blur = "handleBlur"
         @input = "handleInput" >
 
-      <div class="dt-clear" v-show="curValue && !disabled" @click="handleClear"></div>
+      <div class="dt-clear" v-show="value && !disabled" @click="handleClear"></div>
       <div class="dt-clear dt-input-state" v-if="state"></div>
     </div>
 </template>
@@ -53,15 +53,15 @@ export default {
   },
   methods: {
     handleInput (event) {
-      this.curValue = event.target.value
-      this.$emit('input', this.curValue)
+      // this.curValue = event.target.value
+      this.$emit('input', event.target.value)
     },
     handleClear () {
       if (this.readonly || this.disabled) {
         return
       }
-      this.curValue = ''
-      this.$emit('input', this.curValue)
+      // this.curValue = ''
+      this.$emit('input', '')
     },
     handleFocus (event) {
       this.active = true

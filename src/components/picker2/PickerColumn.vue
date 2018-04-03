@@ -6,7 +6,7 @@
       @touchmove = "onTouchMove"
       @touchend = "onTouchEnd" >
       <ul :style = "currentStyle">
-        <li clas="dv-picker-item" v-for = "(item, index) in options" 
+        <li class="dv-picker-item" v-for = "(item, index) in options" 
             :key="index" 
             v-text="item.value || item"
             :style="{}"
@@ -158,7 +158,9 @@ export default {
   color: #666;
 }
 .dv-picker-item {
-  height: 44px;
+  word-wrap: break-word;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .dv-picker-item-active {
   color:red;

@@ -3,11 +3,12 @@
     :itemHeight = "itemHeight"
     :visibleItemCount = "visibleItemCount"
     :className = "className"
+    :columns = 'columns'
     @on-change="onChange"
   />
 </template>
 <script>
-import Picker from './picker2/picker'
+import Picker from '../picker2/picker'
 export default {
   name: 'dv-date-picker',
   components: {
@@ -28,7 +29,14 @@ export default {
       default: 'yyyy-MM-dd'
     },
     startYear: {
-      type: Number
+      type: Number,
+      default: new Date().getFullYear()
+    },
+    endYear: Number
+  },
+  data () {
+    return {
+      columns : [{value: [2011, 2012, 2013, 2014]}, {value: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}, {value: [1, 2]}]
     }
   },
   methods: {
@@ -42,10 +50,21 @@ export default {
       }
     },
     isLeapYear (year) {
-      return year % 400 === 0 || (year % 100 !== 0 && year %4 === 0)
+      return year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0)
     },
     onChange (value) {
       console.log(value)
+    },
+    formatDate () {
+      // let time = Date.now()
+      // let o = {
+      //   'y+': time.getFullYear(),
+      //   'm+': time.getMonth() + 1,
+      //   'd+': time.getDate(),
+      //   'h+': time.getHours(),
+      //   'M+': time.getMinutes(),
+      //   's+': time.getSeconds()
+      // }
     }
   }
 }

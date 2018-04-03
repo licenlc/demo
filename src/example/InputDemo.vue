@@ -2,7 +2,7 @@
   <div class="hello">
     <div>
       <input-label label="姓名" labelWidth="90" align="right">
-          <Input placeholder="请输入姓名" v-model="name" maxlength="11" @input="handleInput" @blur="Blur"/>
+          <Input placeholder="请输入姓名" v-model="name" maxlength="11" @blur="Blur"/>
       </input-label>
       <input-label label="不可编辑">
           <Input placeholder="内容不可编辑" :disabled="true"/>
@@ -37,14 +37,16 @@ export default {
   },
   watch: {
     name: function (val, oldValue) {
-      this.name = val.replace(/\D/gi, '')
+      this.$nextTick(() => {
+        this.name = val.replace(/\D/gi, '')
+      })
     }
   },
   created () {
   },
   methods: {
     getValue () {
-      this.name = this.name + '89'
+      // this.name = this.name + '89'
       console.log('name:', this.name)
     },
     handleInput (val) {
@@ -52,25 +54,9 @@ export default {
       this.name = val
     },
     Blur (e) {
-      console.log(e)
+      // console.log(e)
     }
   }
 }
 </script>
 
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  /* margin: 0 10px; */
-}
-a {
-  color: #42b983;
-}
-</style>
