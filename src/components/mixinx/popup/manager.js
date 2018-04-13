@@ -19,7 +19,6 @@ export default {
     }
   },
   close (id) {
-    // console.log(id, context.top.vm._popupId)
     const {stack} = context
     if (stack.length) {
       if (context.top.vm._popupId === id) {
@@ -32,7 +31,6 @@ export default {
   },
   update () {
     let {modal} = context
-    // console.log(context.top)
     if (!modal) {
       modal = new (Vue.extend(Modal))({
         el: document.createElement('div')
@@ -56,6 +54,7 @@ export default {
   onClick () {
     if (context.top) {
       const {vm} = context.top
+      console.log('onClick', vm.closeOnClickOverLay)
       vm.$emit('click-overlay')
       vm.closeOnClickOverLay && vm.close()
     }

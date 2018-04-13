@@ -30,7 +30,6 @@ export default {
   },
   created () {
     this._popupId = 'popup-' + context.plugKey('id')
-    // console.log('popupId', this._popupId)
     this.pos = {
       x: 0,
       y: 0
@@ -64,6 +63,7 @@ export default {
       this.$emit('input', true)
     },
     close () {
+      console.log('index.close')
       if (this.lockScroll) {
         document.body.classList.remove('dv-overflow-hidden')
         off(document, 'touchmove', this.onTouchMove)
@@ -73,7 +73,6 @@ export default {
       this.$emit('input', false)
     },
     move () {
-
     },
     onTouchStart (e) {
       this.pos = {
@@ -82,12 +81,9 @@ export default {
       }
     },
     onTouchMove (e) {
-      // const {pos} = this
-      // const dx
     },
     renderOverlay () {
       if (this.overlay) {
-        // console.log('overlay:', this.overlay)
         manager.open(this, {
           zIndex: context.plugKey('zIndex'),
           className: this.overlayClass,

@@ -9,6 +9,7 @@ import Tab from '@/example/Tab'
 import Toast from '@/example/Toast'
 import dialog from '@/example/dialog'
 import ScreenPage from '@/example/ScreenPage'
+import SwiperDemo from '@/example/SwiperDemo'
 
 Vue.use(Router)
 
@@ -18,6 +19,11 @@ export default new Router({
       path: '/',
       name: 'index',
       component: Index
+    },
+    {
+      path: '/swiper',
+      name: 'SwiperDemo',
+      component: SwiperDemo
     },
     {
       path: '/input',

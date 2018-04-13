@@ -5,6 +5,7 @@
 
 <script>
 export default {
+  name: 'dv-backto-top',
   prop: {
     bottom: {
       type: [Number, String],

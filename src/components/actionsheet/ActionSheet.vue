@@ -1,21 +1,19 @@
 <template>
-  <div>
-      <transition name="actionsheet-float">
-        <div class="uvue-actionsheet" v-show="curShow">
-          <ul class="uv-actionsheet-list" :style="{'margin-bottom': cancelText ? '5px' : '0px'}">
-            <li class="uv-actionsheet-item" v-for="(item, index) in actions" v-text="item.name" @click="itemClick(index)" :key="index"/>
-          </ul>
-          <a class="uv-actionsheet-btn" v-if="showCancel" @click="itemClick(-1)" v-text="cancelText"></a>
-        </div>
-      </transition>
-      <transition name="uvue-mask">
-        <div class="uvue-masking" @click="itemClick(-1)" v-show="curShow"></div>
-      </transition>
-  </div>
+    <transition name="as-float">
+      <div class="dv-as" v-show="value">
+        <ul class="dv-as-list" :style="{'margin-bottom': cancelText ? '5px' : '0px'}">
+          <li class="dv-as-item" v-for="(item, index) in actions" v-text="item.name" @click="itemClick(index)" :key="index"/>
+        </ul>
+        <a class="dv-as-btn" v-if="showCancel" @click="$emit('input', false)" v-text="cancelText"></a>
+      </div>
+    </transition>
 </template>
 <script>
+import Popup from '../mixinx/popup'
 export default {
   name: 'action-sheet',
+
+  mixins: [Popup],
   props: {
     actions: {
       type: Array,
@@ -25,31 +23,27 @@ export default {
       type: String,
       default: '取消'
     },
-    show: {
-      type: Boolean,
-      default: false
-    },
     showCancel: {
+      type: Boolean,
+      default: true
+    },
+    overlay: {
+      type: Boolean,
+      default: true
+    },
+    closeOnClickOverlay: {
       type: Boolean,
       default: true
     }
   },
   data () {
     return {
-      curShow: this.show
-    }
-  },
-  watch: {
-    'show': function (val) {
-      this.curShow = val
     }
   },
   methods: {
     itemClick (index) {
-      this.curShow = false
-      if (index < 0) {
-        this.$emit('item-click', -1)
-      } else {
+      this.$emit('input', false)
+      if (index >= 0) {
         this.$emit('item-click', index)
       }
     },
@@ -59,7 +53,7 @@ export default {
 }
 </script>
 <style lang="css">
-.uvue-actionsheet{
+.dv-as{
     position: fixed;
     bottom: 0;
     right:0;
@@ -68,60 +62,45 @@ export default {
     margin: 0 1%;
     font-size:16px;
     z-index: 1000;
-  }
-  .uv-actionsheet-list{
-    background-color: #fff;
-    border-radius: 6px;
-    max-height: 450px;
-    overflow: scroll;
-  }
-  .uv-actionsheet-item{
-    border-bottom:1px solid #f0f0f0;
-    height:40px;
-    line-height: 40px;
-    overflow: hidden;
-  }
-  .uv-actionsheet-btn{
-    background-color: #fff;
-    display:block;
-    line-height:40px;
-    height:40px;
-    border-radius: 6px;
-    margin-bottom: 8px;
-  }
-  .actionsheet-float-enter-active {
-    transform: translateY(0);
-    transition:300ms ease-out;
-  }
-  .actionsheet-float-enter, .actionsheet-float-leave-active {
-    transition:300ms ease-out;
-    transform: translateY(100%);
-  }
-  .uvue-mask-enter-active{
-    transition: opacitybg 300ms linear;
-  }
-  @keyframes opacitybg {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  .uvue-mask-leave-active {
+}
+.dv-as-list{
+  background-color: #fff;
+  border-radius: 6px;
+  max-height: 450px;
+  overflow: scroll;
+}
+.dv-as-item{
+  border-bottom:1px solid #f0f0f0;
+  height:40px;
+  line-height: 40px;
+  overflow: hidden;
+}
+.dv-as-btn{
+  background-color: #fff;
+  display:block;
+  line-height:40px;
+  height:40px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+.as-float-enter-active, .as-float-leave-active {
+  transition:300ms ease-out;
+}
+.as-float-enter-to, .as-float-leave{
+  transform: translateY(0);
+  opacity: 1;
+}
+.as-float-enter, .as-float-leave-to {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+@keyframes opacitybg {
+  0% {
     opacity: 0;
-    transition: 300ms ease-out;
   }
-  .uvue-masking {
-    position: fixed;
-    right: 0;
-    left:0;
-    bottom: 0;
-    top: 0;
-    background-color: rgba(0,0,0,.2);
-    z-index: 999;
-    opacity: .6;
+  100% {
+    opacity: 1;
   }
- 
-  
+}  
 </style>

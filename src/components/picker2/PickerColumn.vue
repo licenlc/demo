@@ -11,8 +11,7 @@
             v-text="item.value || item"
             :style="{}"
             :class = "{'dv-picker-item-active': index === currentIndex }"
-            @click="setIndex(index, true)"
-        />
+            @click="setIndex(index, true)"/>
       </ul>
   </div>
 </template>
@@ -25,21 +24,26 @@ export default {
     className: String,
     itemHeight: Number,
     visibleItemCount: Number,
-    options: {
-      type: Array,
-      default: () => []
-    },
+    options: [Array, Number],
     defaultIndex: Number
   },
   computed: {
+    // offset () {
+
+    // },
     maxOffset () {
+      console.log('maxOffset:', this.count * this.itemHeight)
       return this.count * this.itemHeight
     },
     minOffset () {
       return this.baseOffset - this.itemHeight
     },
     count () {
-      return this.options.length
+      if (Object.prototype.toString.call(this.options) === '[object Number]') {
+        return this.options
+      } else {
+        return this.options.length
+      }
     },
     baseOffset () {
       return this.itemHeight * (this.visibleItemCount - 1) / 2
@@ -53,6 +57,14 @@ export default {
         transform: `translate3d(0,  ${this.baseOffset + this.offset}px,  0)`,
         lineHeight: this.itemHeight + 'px'
       }
+    }
+  },
+  watch: {
+    currentIndex: function (val, oldvalue) {
+      console.log('currentIndex-watch', val, oldvalue)
+    },
+    defaultIndex: function (val) {
+      console.log('默认值:', this.defaultIndex)
     }
   },
   data () {
@@ -70,19 +82,22 @@ export default {
   },
   methods: {
     onTouchStart (e) {
+      // console.log('options-touchstart:', this.options.length)
       let clientY = e.touches[0].clientY
+      // console.log('clientY', clientY)
       this.startY = clientY
-      this.lastMoveY = clientY
+      this.endMoveY = this.lastMoveY = clientY
       this.startOffset = this.offset
       this.duration = 0
       this.startTime = e.timeStamp
     },
     onTouchMove (e) {
       let deltaY = this.startY - e.touches[0].clientY
+      // console.log('move:', e.touches[0].clientY, 'deltalY:', deltaY)
       this.offset = this.startOffset - deltaY
       this.endMoveY = e.touches[0].clientY
-      if (e.timeStamp - this.startTime > 300) {
-        // console.log('重新设置参数')
+      if (e.timeStamp - this.startTime > 200) {
+        console.log('重新设置参数')
         this.startTime = e.timeStamp
         this.lastMoveY = e.touches[0].clientY
       }
@@ -96,25 +111,27 @@ export default {
     startInertiaMove (event) {
       this.endTime = event.timeStamp
       let v = (this.endMoveY - this.lastMoveY) / (this.endTime - this.startTime)
+      console.log('v:', v)
       // 滑动方向, 大于0 为向下滑动， 为负， 向上滑动
       // let direction = v > 0 ? -1 : 1
       let duration = v / 0.004
       let distance = v * duration / 2
       if (v <= 0) {
         this.duration = 300
-        if (this.offset - distance < -this.maxOffset) {
+        if (this.offset - distance <= -this.maxOffset) {
           this.offset = -this.maxOffset + 40
-          this.currentIndex = this.options.length - 1
+          this.currentIndex = this.count - 1
+          console.log('maxOffset:', this.maxOffset)
         } else if (this.offset + distance >= this.minOffset) {
           this.offset = this.minOffset - 40
           this.currentIndex = 0
-          // console.log('currentIndex:', index)
+          console.log('maxOffset:', this.maxOffset)
         } else {
-          this.offset = this.offset - distance
-          let index = Math.round(Math.abs(this.offset / this.itemHeight))
-          this.currentIndex = index
-          // console.log('currentIndex:', index)
-          this.offset = this.itemHeight * index * -1
+          let offset = this.offset - distance
+          let index = Math.round(Math.abs(offset / this.itemHeight))
+          this.currentIndex = index > this.count - 1 ? this.count - 1 : index
+          console.log('index:', index)
+          this.offset = this.itemHeight * this.currentIndex * -1
         }
       } else if (v >= 0) {
         this.duration = 300
@@ -123,13 +140,12 @@ export default {
           this.currentIndex = 0
         } else if (this.offset - distance < -this.maxOffset) {
           this.offset = -this.maxOffset + 40
-          this.currentIndex = this.options.length - 1
+          this.currentIndex = this.count - 1
         } else {
-          this.offset = this.offset + distance
-          let index = Math.round(Math.abs(this.offset / this.itemHeight))
+          let offset = this.offset + distance
+          let index = Math.round(Math.abs(offset / this.itemHeight))
           this.currentIndex = index
-          // console.log('currentIndex:', index)
-          this.offset = this.itemHeight * index * -1
+          this.offset = this.itemHeight * this.currentIndex * -1
         }
       }
       this.setValue()
@@ -142,7 +158,7 @@ export default {
       }
     },
     setValue () {
-      console.log('on-item-change子元素', this.currentIndex)
+      // console.log('on-item-change子元素', this.currentIndex)
       this.$emit('on-item-change', this.currentIndex)
     }
   }
@@ -164,7 +180,7 @@ export default {
 }
 .dv-picker-item-active {
   color:red;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
 }
 </style>

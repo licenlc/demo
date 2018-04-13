@@ -1,7 +1,9 @@
 <template>
 <transition name="actionsheet-float">
   <div class="dv-picker" v-show="value">
-    <div class="dv-picker-cancle" @click="$emit('input', false)">取消</div>
+    <div class="dv-picker-cancle" >
+      <span @click="$emit('input', false)">取消</span>
+    </div>
     <section class="picker-titles" v-if="header.length > 0">
       <div class="picker-title" v-for="(item, index) in header" :key="index" v-text="item"></div>
     </section>
@@ -62,47 +64,58 @@ export default {
   data () {
     return {
       curIndex: 0,
-      currentColums: [],
       isSimple: false
     }
   },
-  created () {
-    this.initColumns()
+  watch: {
+    columns: function (val, oldValue) {
+      console.log('watch:', JSON.stringify(val), 'old:', JSON.stringify(oldValue))
+    }
   },
-  methods: {
-    initColumns () {
-      // 这里待修改
+  computed: {
+    currentColums () {
       let columns = JSON.parse(JSON.stringify(this.columns))
+      console.log('colums:', JSON.stringify(columns))
       if (typeof columns[0] === 'string' || typeof columns[0] === 'number') {
-      // if (!columns.value && !columns[0].value && columns.length > 0) {
-        this.currentColums = [{value: columns}]
         this.isSimple = true
+        return [{value: columns}]
       } else {
         if (columns.length === 1 && columns[0].value) {
-          this.currentColums = [{value: columns[0].value, defaultIndex: columns[0].defaultIndex || 0}]
           this.isSimple = true
+          return [{value: columns[0].value, defaultIndex: columns[0].defaultIndex || 0}]
         } else {
+          let arr = []
+          // console.log('picker:', JSON.stringify(columns))
           for (let i in columns) {
-            this.currentColums.push({value: columns[i].value, efaultIndex: columns[0].defaultIndex || 0})
             this.isSimple = false
+            arr.push({value: columns[i].value, defaultIndex: columns[0].defaultIndex || 0})
           }
+          // console.log(JSON.stringify(arr))
+          return arr
         }
       }
-    },
-    onChange (index, b) {
-      console.log('父元素：', index, b)
-      console.log(this.$children[index].currentIndex)
-      this.curIndex = index
+    }
+  },
+  methods: {
+    onChange (index) {
       if (this.isSimple) {
-        // console.log('simple-on-change:', index)
         this.$emit('on-change', this.columns[index])
       } else {
-        this.$emit('on-change', this, this.curIndex)
+        this.$emit('on-change', this.getChildrendIndex())
       }
     },
     confirm () {
       this.$emit('input', false)
       this.$emit('on-ok', this.curIndex)
+    },
+    getChildrendIndex () {
+      return this.$children.map(item => item.currentIndex)
+    },
+    getChildrenValue () {
+      let indexList = this.getChildrendIndex()
+      for (let i in this.currentColums) {
+        console.log(JSON.stringify(this.currentColums[i].value[indexList[i]]))
+      }
     }
   }
 }
@@ -133,16 +146,20 @@ export default {
 }
 .dv-picker-cancle {
   text-align: right;
-  line-height:30px;
-  padding: 5px;
-  padding-right: 30px;
   color: #26a2ff;
-  /* margin-right: 20px; */
   border-bottom: 1px solid #f0f0f0;
+}
+.dv-picker-cancle span{
+  display: inline-block;
+  height: 100%;
+  padding: 10px 20px;
 }
 .dv-picker-ok {
   padding: 10px;
-  border-top: 1px solid #f0f0f0;
+  border-top: 1px solid #fff;
+  background-color:#a29b9b;
+  color:#fff;
+  font-size: 16px;
 }
 .picker-center{
   position: absolute;

@@ -99,12 +99,12 @@ export default {
 }
 
 .fase-out-enter-active, .fade-out-leave-active{
-    animation: faseOut 500ms;
+    animation: faseOut 300ms;
 }
 
 .fade-out-enter-to, .fade-out-leave{
   opacity: 1;
-  transition: 500ms ease-in-out;
+  transition: 300ms ease-in-out;
 
 }
 @keyframes fadeOut {

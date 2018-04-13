@@ -6,7 +6,7 @@
         :class = "className"
         :style="style"
         @touchmove.prevent.stop
-        @click="$emit('click', event)"
+        @click="$emit('click', $event)"
       />
   </transition>
 </template>
@@ -22,11 +22,6 @@ export default {
     zIndex: Number,
     className: String,
     customStyle: Object
-  },
-  watch: {
-    visible: function (val) {
-      console.log('visible:', val)
-    }
   },
   computed: {
     style () {

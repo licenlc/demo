@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'input-label',
+  name: 'dv-input-label',
   props: {
     label: {
       type: String,
