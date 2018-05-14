@@ -1,37 +1,37 @@
 <template>
   <div class="hello">
     <div style="text-align:center;padding-top:10px;">
-      <!-- <btn @click="showPicker2= !showPicker2">点击弹出picker</btn> -->
-      <btn @click="datePickerInfo= !datePickerInfo">点击弹出时间</btn>
+      <btn @click="showPicker= !showPicker">点击picker</btn>
+      <btn @click="setLocal">setLocal</btn>
     </div>
-    <!-- <picker :list = "list" v-model="showPicker" @confirm="getValue"/> -->
-    <!-- <picker2 :columns="options" v-model="showPicker2" @on-ok="getValue"/> -->
-    <date-picker v-model="datePickerInfo" />
+    <picker2 v-model = "showPicker" :columns="options" @on-ok="getValue"/>
   </div>
 </template>
 
 <script>
-// import Picker from '@/components/picker/Picker'
 import Picker2 from '@/components/picker2/Picker'
-import DatePicker from '@/components/datepicker/DatePicker'
 import Btn from '@/components/button/Button'
 export default {
   components: {
-    // Picker,
     Picker2,
-    DatePicker,
     Btn
   },
   data () {
     return {
-      list: [],
-      showPicker: false,
-      showPicker2: false,
-      datePickerInfo: false,
-      options: []
+      options: [],
+      showPicker: false
     }
   },
   created () {
+    window.addEventListener('storage', () => {
+      console.log('页面传==递数据')
+    })
+    let arr = []
+    for (let i = 1; i < 67 ; i++) {
+      arr.push(`测试${i}测试`)
+    }
+    // window.localStorage.setItem('key', '121212')
+    this.options = arr
     // for (let i = 1; i < 17 ; i++) {
     //   this.list.push({text: `测试${i}测试`, value: i})
     // }
@@ -46,11 +46,19 @@ export default {
   },
   methods: {
     getValue (index) {
-      console.log('confirm结果:', this.options[index])
+      console.log('==============================结果======================')
+      console.log('index:', index, 'confirm结果:', this.options[index])
+      console.log('==============================结果=====================')
+    },
+    setLocal () {
+      window.localStorage.setItem('key', 1)
     }
   }
 }
 </script>
 
 <style scoped>
+.hello {
+  height: 100px;
+}
 </style>

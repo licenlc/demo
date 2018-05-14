@@ -1,6 +1,6 @@
 <template>
     <transition name="as-float">
-      <div class="dv-as" v-show="value">
+      <div class="dv-as" v-show="value" @touchmove="disabledScroll">
         <ul class="dv-as-list" :style="{'margin-bottom': cancelText ? '5px' : '0px'}">
           <li class="dv-as-item" v-for="(item, index) in actions" v-text="item.name" @click="itemClick(index)" :key="index"/>
         </ul>
@@ -48,6 +48,9 @@ export default {
       }
     },
     closeMasking () {
+    },
+    disabledScroll (e) {
+      e.preventDefault()
     }
   }
 }

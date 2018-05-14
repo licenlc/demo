@@ -1,12 +1,12 @@
 <template>
-  <div class="dv-backto-top" v-show="visible">
+  <div class="dv-backto-top" v-show="visible" @click="toTop" >
   </div>
 </template>
 
 <script>
 export default {
   name: 'dv-backto-top',
-  prop: {
+  props: {
     bottom: {
       type: [Number, String],
       default: 20
@@ -32,18 +32,17 @@ export default {
     }
   },
   mounted () {
-    const win = window
     let winHeight = window.innerHeight
-    let heightInfo = winHeight * this.screenNum
     let req = false
-    win.addEventListener('scroll', () => {
+    window.addEventListener('scroll', () => {
       if (req) {
         return
       }
       req = true
-      requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
         req = false
-        if ((document.documentElement.scrollTop || document.body.scrollTop) > (heightInfo)) {
+        console.log((document.documentElement.scrollTop || document.body.scrollTop), (winHeight * this.screenNum))
+        if ((document.documentElement.scrollTop || document.body.scrollTop) > (winHeight * this.screenNum)) {
           this.visible = true
         } else {
           this.visible = false

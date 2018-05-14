@@ -9,8 +9,8 @@ const defaultConfig = {
 
 export default {
   open (vm, config) {
+    console.log(context.stack)
     const exist = context.stack.some(item => item.vm._popupId === vm._popupId)
-    // console.log('vm', vm, 'exist:', exist, 'config:', config)
     if (!exist) {
       const el = vm.$el
       const targetNode = el && el.parentNode && el.parentNode.nodeType !== 11 ? el.parentNode : document.body
@@ -54,8 +54,9 @@ export default {
   onClick () {
     if (context.top) {
       const {vm} = context.top
-      console.log('onClick', vm.closeOnClickOverLay)
+      console.log('onClick===', vm.closeOnClickOverLay)
       vm.$emit('click-overlay')
+      console.log(vm.close())
       vm.closeOnClickOverLay && vm.close()
     }
   }

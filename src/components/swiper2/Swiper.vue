@@ -16,7 +16,7 @@ export default {
   props: {
     loop: {
       type: Boolean,
-      default: false
+      default: true
     },
     speed: {
       type: Number,
@@ -55,7 +55,8 @@ export default {
       moveTime: 0,
       isTouch: false,
       translateX: 0,
-      delayTime: this.delay
+      delayTime: this.delay,
+      isRight: true
     }
   },
   computed: {
@@ -71,18 +72,20 @@ export default {
     autoPlay () {
       if (this.loop && !this.isTouch) {
         this.timer = setInterval(() => {
+          console.log('curIndex-before:', this.curIndex, this.delayTime)
           if (this.curIndex === (this.childItem - 1)) {
             this.curIndex = 1
             this.curSpeed = 0
-            this.delayTime = 0
+            this.delayTime = 14
           } else if (this.curIndex === 0) {
             this.curIndex = this.childItem
             this.curSpeed = 0
           } else {
-            this.curIndex += 1
+            this.curIndex = this.curIndex + 1
             this.curSpeed = this.speed
             this.delayTime = this.delay
           }
+          console.log('curIndex-after:', this.curIndex, this.delayTime)
           this.translateX = this.windWidth * this.curIndex
         }, this.delayTime)
       }
@@ -99,18 +102,32 @@ export default {
       this.moveX = e.touches[0].pageX
       this.moveY = e.touches[0].pageY
       this.moveTime = e.timeStamp
-      console.log(this.moveX - this.startX, this.translateX)
+      console.log(this.moveX - this.startX, this.translateX, this.curIndex)
+      if (this.moveX - this.startX > 0) {
+        this.isRight = false
+      } else {
+        this.isRight = true
+      }
       // if (this.moveTime - this.startTime > 200) {
       //   this.startTime = this.moveTime
       //   this.startX = this.moveX
       //   this.startY = this.moveY
       // }
       // this.translateX = this.translateX - (this.moveX - this.startX)
-      this.translateX = -(this.moveX - this.startX) + this.translateX
+      this.translateX = -(this.moveX - this.startX) + this.windWidth + this.curIndex
     },
     touchEnd (e) {
       this.isTouch = false
       // this.curSpeed = this.speed
+      if (this.translateX % this.windWidth > 50 && this.isRight) {
+        this.curIndex = this.curIndex + 1
+      } else {
+        this.curIndex = this.curIndex
+      }
+      this.curSpeed = this.speed
+      this.translateX = this.windWidth * this.curIndex
+      this.moveX = 0
+      this.startX = 0
     }
   },
   mounted () {
@@ -130,6 +147,11 @@ export default {
       this.translateX = this.windWidth * this.curIndex
     }
     // this.autoPlay()
+  },
+  watch: {
+    curIndex: function (val, oldValue) {
+      console.log('curIndex:', val, 'old_curIndex:', oldValue)
+    }
   }
 }
 </script>

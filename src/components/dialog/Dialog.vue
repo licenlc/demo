@@ -5,10 +5,10 @@
         <slot name="content">
           <p class="dv-content" v-text="content" v-if="content"></p>
         </slot>
-        <div class="dv-btn-area">
+        <div class="dv-dialog-btn-area">
           <slot name="footer">
-              <a class="dv-btn dv-btn-calc" v-if="cancelText" v-text="cancelText" @click="$emit('input', false)"></a>
-              <a class="dv-btn dv-btn-ok" v-text="okText" v-if="okText" @click="okCB"></a>
+              <a class="dv-dialog-btn dv-dialog-btn-calc" v-if="cancelText" v-text="cancelText" @click="$emit('input', false)"></a>
+              <a class="dv-dialog-btn dv-dialog-btn-ok" v-text="okText" v-if="okText" @click="okCB"></a>
           </slot>
         </div>
       </div>
@@ -71,26 +71,26 @@ export default {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
-.dv-btn-area{
+.dv-dialog-btn-area{
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.dv-btn{
+.dv-dialog-btn{
   padding: 6px 0;
   font-size: 14px;
   color:#26a2ff;
   background-color:#fff;
   border-radius: 4px;
 }
-.dv-btn-area .dv-btn{
+.dv-dialog-btn-area .dv-dialog-btn{
   flex: 1;
 }
-.dv-btn.dv-btn-calc{
+.dv-dialog-btn.dv-dialog-btn-calc{
   color:#000;
   background-color:#fff;
 }
-.dv-btn.dv-btn-ok{
+.dv-dialog-btn.dv-dialog-btn-ok{
   border-left:1px solid #f0f0f0;
 }
 .fade-out-enter, .fade-out-leave-to{

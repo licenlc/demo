@@ -8,6 +8,8 @@
       <router-link tag="p" class="home-item" :to = "{path: 'toast'}">toast</router-link>
       <router-link tag="p" class="home-item" :to = "{path: 'dialog'}">confirm</router-link>
       <router-link tag="p" class="home-item" :to = "{path: 'swiper'}">swiper</router-link>
+      <router-link tag="p" class="home-item" :to = "{path: 'datePicker'}">date_picker</router-link>
+      <router-link tag="p" class="home-item" :to = "{path: '/backToTop'}">back-to-top</router-link>
   </div>
 </template>
 <style>

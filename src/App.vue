@@ -15,6 +15,9 @@ export default {
   padding:0;
   margin:0;
 }
+.dv-overflow-hidden{
+  overflow:hidden;
+}
 html {
     -webkit-tap-highlight-color: transparent;
 }

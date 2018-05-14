@@ -8,7 +8,7 @@
     @on-change = "onChange"
     :header = "['年', '月', '日']"
     @on-ok="confirm"
-    @click="$emit('input', false)"
+    @on-cancel = "$emit('input', false)"
   />
 </template>
 <script>
@@ -69,8 +69,10 @@ export default {
       }
       if (this.curDate > days) {
         this.$children[0].$children.defaultIndex = day.length - 1
+        console.log(this.$children)
         console.log(this.$children[0].$children.defaultIndex)
         console.log(JSON.stringify([{value: years}, {value: month}, {value: day, defaultIndex: day.length - 1}]))
+        // this.$children[2].defaultIndex = day.length - 1
         return [{value: years}, {value: month}, {value: day, defaultIndex: day.length - 1}]
       } else {
         return [{value: years}, {value: month}, {value: day}]
@@ -99,6 +101,7 @@ export default {
     },
     confirm () {
       this.$emit('input', false)
+      console.log('year:', this.currentYear, 'month:', this.currentMonth, 'date:', this.curDate)
     }
   }
 }

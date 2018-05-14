@@ -28,9 +28,6 @@ export default {
     defaultIndex: Number
   },
   computed: {
-    // offset () {
-
-    // },
     maxOffset () {
       console.log('maxOffset:', this.count * this.itemHeight)
       return this.count * this.itemHeight
@@ -39,6 +36,7 @@ export default {
       return this.baseOffset - this.itemHeight
     },
     count () {
+      // console.log('options:', JSON.stringify(this.options), Object.prototype.toString.call(this.options) === '[object Number]')
       if (Object.prototype.toString.call(this.options) === '[object Number]') {
         return this.options
       } else {
@@ -60,9 +58,6 @@ export default {
     }
   },
   watch: {
-    currentIndex: function (val, oldvalue) {
-      console.log('currentIndex-watch', val, oldvalue)
-    },
     defaultIndex: function (val) {
       console.log('默认值:', this.defaultIndex)
     }
@@ -82,9 +77,8 @@ export default {
   },
   methods: {
     onTouchStart (e) {
-      // console.log('options-touchstart:', this.options.length)
+      e.preventDefault()
       let clientY = e.touches[0].clientY
-      // console.log('clientY', clientY)
       this.startY = clientY
       this.endMoveY = this.lastMoveY = clientY
       this.startOffset = this.offset
@@ -92,6 +86,7 @@ export default {
       this.startTime = e.timeStamp
     },
     onTouchMove (e) {
+      e.preventDefault()
       let deltaY = this.startY - e.touches[0].clientY
       // console.log('move:', e.touches[0].clientY, 'deltalY:', deltaY)
       this.offset = this.startOffset - deltaY
@@ -114,40 +109,101 @@ export default {
       console.log('v:', v)
       // 滑动方向, 大于0 为向下滑动， 为负， 向上滑动
       // let direction = v > 0 ? -1 : 1
-      let duration = v / 0.004
+      let duration = v / 0.002
       let distance = v * duration / 2
+      console.log('distance:', distance, 'v:', v, 'baseOffset:', this.baseOffset, 'offset:', this.offset, 'minoffset', this.minOffset)
+      this.duration = 300
       if (v <= 0) {
-        this.duration = 300
-        if (this.offset - distance <= -this.maxOffset) {
+        let offset = this.offset - distance
+        if (offset <= -this.maxOffset) {
           this.offset = -this.maxOffset + 40
           this.currentIndex = this.count - 1
-          console.log('maxOffset:', this.maxOffset)
-        } else if (this.offset + distance >= this.minOffset) {
-          this.offset = this.minOffset - 40
-          this.currentIndex = 0
-          console.log('maxOffset:', this.maxOffset)
         } else {
-          let offset = this.offset - distance
           let index = Math.round(Math.abs(offset / this.itemHeight))
           this.currentIndex = index > this.count - 1 ? this.count - 1 : index
-          console.log('index:', index)
           this.offset = this.itemHeight * this.currentIndex * -1
         }
       } else if (v >= 0) {
-        this.duration = 300
-        if (this.offset + distance >= this.minOffset) {
-          this.offset = this.minOffset - 40
-          this.currentIndex = 0
-        } else if (this.offset - distance < -this.maxOffset) {
+        let offset = this.offset + distance
+        if (offset < -this.maxOffset) {
           this.offset = -this.maxOffset + 40
           this.currentIndex = this.count - 1
         } else {
-          let offset = this.offset + distance
           let index = Math.round(Math.abs(offset / this.itemHeight))
           this.currentIndex = index
           this.offset = this.itemHeight * this.currentIndex * -1
         }
       }
+      if (v <= 0) {
+        // this.duration = 300
+        // if (this.offset - distance <= -this.maxOffset) {
+        //   this.offset = -this.maxOffset + 40
+        //   this.currentIndex = this.count - 1
+        //   console.log('maxOffset:', this.maxOffset)
+        // } else if (this.offset + distance >= this.minOffset) {
+        //   this.offset = this.minOffset - 40
+        //   this.currentIndex = 0
+        //   console.log('maxOffset:', this.maxOffset)
+        // } else {
+        //   let offset = this.offset - distance
+        //   let index = Math.round(Math.abs(offset / this.itemHeight))
+        //   this.currentIndex = index > this.count - 1 ? this.count - 1 : index
+        //   console.log('index:', index)
+        //   this.offset = this.itemHeight * this.currentIndex * -1
+        // }
+      } else if (v >= 0) {
+        // this.duration = 300
+        // if (this.offset + distance >= this.minOffset) {
+        //   console.log('minoffset=====================')
+        //   this.offset = this.minOffset - 40
+        //   this.currentIndex = 0
+        // } else if (this.offset - distance < -this.maxOffset) {
+        //   console.log('maxoffset=====================')
+        //   this.offset = -this.maxOffset + 40
+        //   this.currentIndex = this.count - 1
+        // } else {
+        //   console.log('计算值=====================')
+        //   let offset = this.offset + distance
+        //   let index = Math.round(Math.abs(offset / this.itemHeight))
+        //   this.currentIndex = index
+        //   this.offset = this.itemHeight * this.currentIndex * -1
+        // }
+      }
+      // if (v <= 0) {
+      //   this.duration = 300
+      //   if (this.offset - distance <= -this.maxOffset) {
+      //     this.offset = -this.maxOffset + 40
+      //     this.currentIndex = this.count - 1
+      //     console.log('maxOffset:', this.maxOffset)
+      //   } else if (this.offset + distance >= this.minOffset) {
+      //     this.offset = this.minOffset - 40
+      //     this.currentIndex = 0
+      //     console.log('maxOffset:', this.maxOffset)
+      //   } else {
+      //     let offset = this.offset - distance
+      //     let index = Math.round(Math.abs(offset / this.itemHeight))
+      //     this.currentIndex = index > this.count - 1 ? this.count - 1 : index
+      //     console.log('index:', index)
+      //     this.offset = this.itemHeight * this.currentIndex * -1
+      //   }
+      // } else if (v >= 0) {
+      //   this.duration = 300
+      //   if (this.offset + distance >= this.minOffset) {
+      //     console.log('minoffset=====================')
+      //     this.offset = this.minOffset - 40
+      //     this.currentIndex = 0
+      //   } else if (this.offset - distance < -this.maxOffset) {
+      //     console.log('maxoffset=====================')
+      //     this.offset = -this.maxOffset + 40
+      //     this.currentIndex = this.count - 1
+      //   } else {
+      //     console.log('计算值=====================')
+      //     let offset = this.offset + distance
+      //     let index = Math.round(Math.abs(offset / this.itemHeight))
+      //     this.currentIndex = index
+      //     this.offset = this.itemHeight * this.currentIndex * -1
+      //   }
+      // }
       this.setValue()
     },
     setIndex (index, action) {

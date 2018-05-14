@@ -13,22 +13,26 @@ let getInstance = () => {
     el: document.createElement('div')
   })
 }
+
 let returnAnInstance = instance => {
   if (instance) {
     toolPool.push(instance)
   }
 }
+
 let removeDOM = event => {
   if (event.target.parentNode) {
     event.target.parentNode.removeChild(event.target)
   }
 }
+
 ToastConstructor.prototype.close = () => {
   this.visible = false
   this.closed = true
   this.$el.addEventListener('transitionend', removeDOM)
   returnAnInstance(this)
 }
+
 let Toast = (options = {}) => {
   let duration = options.duration || 5000
   let instance = getInstance()

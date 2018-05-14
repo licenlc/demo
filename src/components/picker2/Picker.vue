@@ -2,7 +2,7 @@
 <transition name="actionsheet-float">
   <div class="dv-picker" v-show="value">
     <div class="dv-picker-cancle" >
-      <span @click="$emit('input', false)">取消</span>
+      <span @click="onCancel">取消</span>
     </div>
     <section class="picker-titles" v-if="header.length > 0">
       <div class="picker-title" v-for="(item, index) in header" :key="index" v-text="item"></div>
@@ -69,13 +69,13 @@ export default {
   },
   watch: {
     columns: function (val, oldValue) {
-      console.log('watch:', JSON.stringify(val), 'old:', JSON.stringify(oldValue))
+      // console.log('watch:', JSON.stringify(val), 'old:', JSON.stringify(oldValue))
     }
   },
   computed: {
     currentColums () {
       let columns = JSON.parse(JSON.stringify(this.columns))
-      console.log('colums:', JSON.stringify(columns))
+      // console.log('colums:', JSON.stringify(columns))
       if (typeof columns[0] === 'string' || typeof columns[0] === 'number') {
         this.isSimple = true
         return [{value: columns}]
@@ -106,7 +106,11 @@ export default {
     },
     confirm () {
       this.$emit('input', false)
-      this.$emit('on-ok', this.curIndex)
+      if (this.isSimple) {
+        this.$emit('on-ok', this.getChildrendIndex())
+      } else {
+        this.$emit('on-ok', this.curIndex)
+      }
     },
     getChildrendIndex () {
       return this.$children.map(item => item.currentIndex)
@@ -114,8 +118,13 @@ export default {
     getChildrenValue () {
       let indexList = this.getChildrendIndex()
       for (let i in this.currentColums) {
-        console.log(JSON.stringify(this.currentColums[i].value[indexList[i]]))
+        // console.log(JSON.stringify(this.currentColums[i].value[indexList[i]]))
       }
+    },
+    onCancel () {
+      console.log('oncancel')
+      this.$emit('input', false)
+      this.$emit('on-cancel', false)
     }
   }
 }

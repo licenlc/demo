@@ -4,12 +4,14 @@ import InputDemo from '@/example/InputDemo'
 import Index from '@/example/Index'
 import Switch from '@/example/SwitchDemo'
 import Picker from '@/example/Picker'
+import DatePicker from '@/example/DatePicker'
 import As from '@/example/As'
 import Tab from '@/example/Tab'
 import Toast from '@/example/Toast'
 import dialog from '@/example/dialog'
 import ScreenPage from '@/example/ScreenPage'
 import SwiperDemo from '@/example/SwiperDemo'
+import BackToTop from '@/example/BackToTop'
 
 Vue.use(Router)
 
@@ -24,6 +26,11 @@ export default new Router({
       path: '/swiper',
       name: 'SwiperDemo',
       component: SwiperDemo
+    },
+    {
+      path: '/backToTop',
+      name: 'BackToTop',
+      component: BackToTop
     },
     {
       path: '/input',
@@ -49,6 +56,11 @@ export default new Router({
       path: '/picker',
       name: 'Picker',
       component: Picker
+    },
+    {
+      path: '/datePicker',
+      name: 'datePicker',
+      component: DatePicker
     },
     {
       path: '/tab',

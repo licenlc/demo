@@ -1,6 +1,6 @@
 <template>
 <div class="parent">
-  <swiper>
+  <swiper class="swiper-demo">
     <swiper-item v-for="(item, index) in list" :key="index">
       <div style="text-align:center;">{{item}}</div>
     </swiper-item>
@@ -18,8 +18,8 @@ export default {
   },
   data () {
     return {
-      // list: [11211111111111, 22222222222222222, 3333333333333, 444444444, 5555555555, 666666666, 77777777],
-      list: [11111111111111, 22222222222222222, 3333333333333]
+      list: [11211111111111, 22222222222222222, 3333333333333, 444444444, 5555555555, 666666666, 77777777]
+      // list: [11111111111111, 22222222222222222]
     }
   }
 }
@@ -29,5 +29,9 @@ export default {
   /* width: 100%;
   margin: 10%; */
   box-sizing: border-box;
+}
+.swiper-demo{
+  /* width: 90%;
+  padding: 5%; */
 }
 </style>
